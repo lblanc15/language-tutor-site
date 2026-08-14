@@ -5,49 +5,20 @@ import { SocialIcon } from "react-social-icons";
 import { gsap } from "gsap";
 import { ScrollToPlugin } from "gsap/ScrollToPlugin";
 
-gsap.registerPlugin(ScrollToPlugin);
 
 export const Footer = () => {
-  const sitemapRef = useRef<HTMLUListElement | null>(null);
-
-  useEffect(() => {
-    if (sitemapRef.current) {
-      gsap.from(sitemapRef.current.children, {
-        opacity: 0,
-        duration: 0.6,
-        ease: "power2.out",
-        stagger: 0.08,
-      });
-    }
-  }, []);
-
-  const handleNavClick = (event: MouseEvent<HTMLAnchorElement>, hash: string) => {
-    event.preventDefault();
-    const target = document.querySelector(hash);
-    if (target) {
-      gsap.to(window, {
-        scrollTo: {
-          y: target,
-          offsetY: 92,
-        },
-        duration: 0.8,
-        ease: "power2.out",
-      });
-    }
-  };
 
   return (
-    <footer className="w-screen bg-gray-900 px-12 py-8 sm:-ml-6 lg:-ml-12 xl:-ml-32 grid gap-8 md:gap-10 md:grid-cols-3 items-start">
+    <footer className="w-full px-6 lg:px-12 grid grid-cols-[1fr_1.5fr_1.5fr] lg:grid-cols-3 bg-blue-950 py-8 lg:py-2">
       <div className="flex justify-center md:justify-start">
-        <img className="h-28 w-28 sm:h-40 sm:w-40 lg:h-48 lg:w-48" alt="footer-img" src="/assets/images/watermark.png" />
+        <img className="h-24 w-24 m-auto  lg:h-48 lg:w-48" alt="footer-img" src="/assets/images/watermark.png" />
       </div>
       <div className="flex flex-col items-center justify-center h-full">
-        <ul ref={sitemapRef} className="p-0 mt-4 text-white font-light flex flex-col gap-2">
+        <ul className="p-0 mt-4 text-white font-light flex flex-col gap-2">
           <li className="text-xs">
             <a
               href="#home"
-              className="text-white/70 hover:text-white transition"
-              onClick={(event) => handleNavClick(event, "#home")}
+              className="text-white hover:text-white transition"
             >
               Home
             </a>
@@ -56,7 +27,6 @@ export const Footer = () => {
             <a
               href="#overview"
               className="text-white/70 hover:text-white transition"
-              onClick={(event) => handleNavClick(event, "#overview")}
             >
               Overview
             </a>
@@ -65,7 +35,6 @@ export const Footer = () => {
             <a
               href="#founders"
               className="text-white/70 hover:text-white transition"
-              onClick={(event) => handleNavClick(event, "#founders")}
             >
               Founders
             </a>
@@ -74,7 +43,6 @@ export const Footer = () => {
             <a
               href="#faq"
               className="text-white/70 hover:text-white transition"
-              onClick={(event) => handleNavClick(event, "#faq")}
             >
               FAQ
             </a>
@@ -83,7 +51,6 @@ export const Footer = () => {
             <a
               href="#schedule"
               className="text-white/70 hover:text-white transition"
-              onClick={(event) => handleNavClick(event, "#schedule")}
             >
               Schedule
             </a>
