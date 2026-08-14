@@ -97,7 +97,7 @@ export const Courses = () => {
   }, []);
 
   return (
-    <section id="Courses" ref={sectionRef} className="px-6 py-12 mt-18 bg-gray-100 rounded-lg lg:mx-12">
+    <section ref={sectionRef} className="px-6 py-12 mt-18 bg-gray-100 rounded-lg lg:mx-12">
       <div className="courses-kicker uppercase mb-6 px-4 py-2 rounded-full border border-slate-700 font-body font-light text-xs w-fit">Courses</div>
       <article className="flex flex-col lg:flex-row gap-4 items-center">
         <div className="courses-copy h-full basis-1/2 pr-4">
@@ -110,6 +110,7 @@ export const Courses = () => {
             <li className="courses-item flex gap-2 items-center"><LucideCheck className="text-amber-500" size={18} />Speaking, Listening, Reading, Writing, Grammar, Vocabulary, and more</li>
             <li className="courses-item flex gap-2 items-center"><LucideCheck className="text-amber-500" size={18} />Assessments in Sessions 10, 20, and 30</li>
           </ul>
+          <Button className="font-body text-xs px-8 font-bold bg-red-800 hover:bg-red-500 text-white" size="lg">View Curriculum</Button>
         </div>
         <div className="basis-1/2 w-full mt-4 lg:mt-0 lg:mb-0">
           <ul className="shadow-sm bg-gray-50 rounded-lg w-full lg:w-3/5 mx-auto font-body">
@@ -119,7 +120,7 @@ export const Courses = () => {
               </div>
               <div>
                 <h3 className="text-xs font-semibold uppercase">Level Goals</h3>
-                <p className="text-xs">Zero to A2 <br/>with progress toward B1</p>
+                <p className="text-xs">Solid A2 level, <br/>with progress toward B1</p>
               </div>
             </li>
             <li className="courses-card p-4 border-b border-gray-200 flex gap-4 items-center">
@@ -137,7 +138,7 @@ export const Courses = () => {
               </div>
               <div>
                 <h3 className="text-xs font-semibold uppercase">Schedule</h3>
-                <p className="text-xs">Please send us a message<br/> to check available class schedules.</p>
+                <p className="text-xs">Tuesdays and Thursdays <br/> 6:00 - 8:00pm PHT</p>
               </div>
             </li>
             <li className="courses-card p-4 border-b border-gray-200 flex gap-4 items-center">

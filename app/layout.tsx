@@ -44,12 +44,7 @@ export default function RootLayout({
       lang="en"
       className={cn("h-full", "antialiased", libreCaslonText.variable, manrope.variable, "font-sans")}
     >
-      <body className="min-h-full overflow-x-hidden">
-        <ClerkProvider>
-          {children}
-          <Toaster />
-        </ClerkProvider>
-      </body>
+      <body className="min-h-full overflow-x-hidden">{children}</body>
     </html>
   );
 }
