@@ -1,6 +1,11 @@
 "use client";
 
+import { useEffect, useRef } from "react";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const faqs = [
   {
@@ -90,34 +95,96 @@ const faqs = [
 
 ];
 
-// Splits the list into 2 near-even groups, the first taking the extra item on
-// an odd count. `slice` keeps `faqs` intact — `splice` would drain it.
 function generateFaq() {
-  const half = Math.ceil(faqs.length / 2);
-  return [faqs.slice(0, half), faqs.slice(half)];
+  const third = Math.ceil(faqs.length / 3);
+  return [
+    faqs.slice(0, third),
+    faqs.slice(third, third * 2),
+    faqs.slice(third * 2),
+  ];
 }
 
 export const Faq = () => {
+  const sectionRef = useRef<HTMLElement | null>(null);
   const groups = generateFaq();
 
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        ".faq-header",
+        { opacity: 0, y: 18 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.9,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: ".faq-header",
+            start: "top 90%",
+            once: true,
+          },
+        },
+      );
+
+      gsap.fromTo(
+        ".faq-column",
+        { opacity: 0, y: 24 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.9,
+          stagger: 0.12,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: ".faq-column",
+            start: "top 85%",
+            once: true,
+          },
+        },
+      );
+
+      gsap.fromTo(
+        ".faq-item",
+        { opacity: 0, y: 16 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.7,
+          stagger: 0.06,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: ".faq-item",
+            start: "top 92%",
+            once: true,
+          },
+        },
+      );
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <div className="flex flex-col gap-8 lg:flex-row">
-      {groups.map((group, i) => (
-        <Accordion
-          key={i}
-          defaultValue={i === 0 ? [group[0].id] : []}
-          className="w-full max-w-none lg:max-w-lg flex-1 min-w-0"
-        >
-          {group.map((faq) => (
-            <AccordionItem key={faq.id} value={faq.id}>
-              <AccordionTrigger>{faq.title}</AccordionTrigger>
-              {/* wrap-break-word: a couple of answers embed bare enrolment URLs
-                  wider than a phone viewport that would otherwise overflow. */}
-              <AccordionContent className="pr-0 sm:pr-4 wrap-break-word">{faq.desc}</AccordionContent>
-            </AccordionItem>
-          ))}
-        </Accordion>
-      ))}
-    </div>
+    <section ref={sectionRef} className="px-6 lg:px-12 w-full py-12 bg-slate-50 rounded-t-[50px]">
+      <div className="faq-header uppercase mb-6 px-4 py-2 rounded-full border border-slate-700 font-body font-light text-xs w-fit">Frequently asked questions</div>
+      <h2 className="faq-header text-2xl font-semibold uppercase mb-2 text-blue-950">Got Questions?</h2>
+      <p className="faq-header font-body lg:max-w-xl text-sm mb-8">We compiled answers to the common questions about our service.</p>
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-2">
+        {groups.map((group, i) => (
+          <Accordion
+            key={i}
+            defaultValue={group[0] ? [group[0].id] : []}
+            className="faq-column w-full font-body"
+          >
+            {group.map((faq) => (
+              <AccordionItem key={faq.id} className="faq-item bg-slate-100 hover:bg-slate-200 p-4 mb-2 shadow-sm">
+                <AccordionTrigger className="cursor-pointer">{faq.title}</AccordionTrigger>
+                <AccordionContent className="pr-0 sm:pr-4 wrap-break-word">{faq.desc}</AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
+        ))}
+      </div>
+    </section>
   )
 }
