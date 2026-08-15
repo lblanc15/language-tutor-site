@@ -1,11 +1,9 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import gsap from "gsap";
-import Image from "next/image";
-import { Button } from "@/components/ui/button";
-import { Home, Info, BookOpen, Calendar, Mail, User, CircleQuestionMark } from "lucide-react";
-import { ScrollToPlugin } from "gsap/ScrollToPlugin";
+import { Home, BookOpen, Mail, User, CircleQuestionMark } from "lucide-react";
+import { useActiveSection } from "../hooks/useActiveSection";
 
 const ITEMS = [
   { label: "Home", Icon: Home },
@@ -15,46 +13,26 @@ const ITEMS = [
   { label: "Contact", Icon: Mail },
 ];
 
-gsap.registerPlugin(ScrollToPlugin);
+/** Stable id list for the scroll spy — must not be rebuilt on render. */
+const IDS = ITEMS.map(({ label }) => label);
 
 export const NavigationMobile = () => {
-  const [active, setActive] = useState<number>(0);
   const itemRefs = useRef<Array<HTMLLIElement | null>>([]);
+  const hasAnimated = useRef(false);
+  const { active, scrollToSection } = useActiveSection(IDS);
 
   useEffect(() => {
     itemRefs.current.forEach((el, i) => {
-      if (el) gsap.set(el, { fontWeight: i === active ? 700 : 400 });
+      if (!el) return;
+      const state = { fontWeight: i === active ? 700 : 400, scale: i === active ? 1.2 : 1 };
+      if (hasAnimated.current) {
+        gsap.to(el, { ...state, duration: 0.18, overwrite: "auto" });
+      } else {
+        gsap.set(el, state);
+      }
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const handleClick = (index: number, title: string) => {
-    if (index === active) return;
-    const prev = itemRefs.current[active];
-    const next = itemRefs.current[index];
-
-    if (prev) {
-      gsap.to(prev, { fontWeight: 400, scale: 1, duration: 0.18 });
-    }
-    if (next) {
-      gsap.to(next, {
-        fontWeight: 700,
-        scale: 1.2,
-        duration: 0.18,
-        onComplete: () => setActive(index),
-      });
-
-      gsap.to(window, {
-        duration: 1,
-         scrollTo: {
-          y: `#${title}`,
-        },
-        ease: "power2.out",
-      })
-    } else {
-      setActive(index);
-    }
-  };
+    hasAnimated.current = true;
+  }, [active]);
 
   const handleHoverEnter = (index: number) => {
     if (index === active) return;
@@ -80,7 +58,7 @@ export const NavigationMobile = () => {
               <li
                 key={label}
                 ref={(el: HTMLLIElement | null) => void (itemRefs.current[i] = el)}
-                onClick={() => handleClick(i, label)}
+                onClick={() => scrollToSection(i)}
                 onMouseEnter={() => handleHoverEnter(i)}
                 onMouseLeave={() => handleHoverLeave(i)}
                 className={`cursor-pointer select-none transition-transform flex flex-col items-center justify-center gap-1 ${active === i ? "font-bold" : ""}`}

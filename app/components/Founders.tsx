@@ -100,7 +100,7 @@ export const Founders = () => {
         </div>
         <div className="founder-copy">
           <h2 className="font-semibold text-xl">Jasper Genes Rico</h2>
-          <h3 className="text-sm font-body text-red-800 mb-2">Co-Founder & Spanish Instructor</h3>
+          <h3 className="text-sm font-body text-red-800 mb-2">Founder & Lead Instructor</h3>
           <ul className="relative text-sm mb-2 font-body">
             <li className="w-0.5 h-5/7 bg-amber-500 absolute top-1/8 left-5"></li>
             <li className="flex relative z-1 font-bold items-center">
@@ -126,7 +126,7 @@ export const Founders = () => {
       <article className="founder-article grid grid-cols-1 lg:grid-cols-[1.3fr_1fr] gap-12 items-center mt-6">
         <div className="founder-copy order-2 lg:order-1">
           <h2 className="font-semibold text-xl">Leizel Sumayod Rico</h2>
-          <h3 className="text-sm font-body text-red-800 mb-2">Co-Founder</h3>
+          <h3 className="text-sm font-body text-red-800 mb-2">Co-Founder & Administrator</h3>
           <ul className="relative text-sm mb-2 font-body">
             <li className="w-0.5 h-5/7 bg-amber-500 absolute top-1/8 left-5"></li>
             <li className="flex relative z-1 font-bold items-center">
@@ -143,7 +143,7 @@ export const Founders = () => {
             </li>
             <li className="flex relative z-1 font-bold items-center">
               <Dot className="text-amber-600" size={42}/>
-              <p className="text-xs font-normal">2 years as Spanish Bilingual</p>
+              <p className="text-xs font-normal">2 years as Spanish Bilingual Virtual Assistant</p>
             </li>
           </ul>
           <p className="font-body">She brings her teaching expertise and real-world experience to ensure effective and learner-friendly Spanish programs.</p>

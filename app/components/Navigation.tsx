@@ -1,51 +1,33 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { ScrollToPlugin } from "gsap/ScrollToPlugin";
+import { useActiveSection } from "../hooks/useActiveSection";
 
-const ITEMS = ["Home", "Courses", "Founders", "Faq",  "Contact"];
+const ITEMS = ["Home", "Courses", "Founders", "Faq", "Contact"];
 
-gsap.registerPlugin(ScrollToPlugin);
+/** Height of the sticky header — the line a section has to cross to count as reached. */
+const HEADER_OFFSET = 100;
 
 export const Navigation = () => {
-  const [active, setActive] = useState<number>(0);
   const itemRefs = useRef<Array<HTMLLIElement | null>>([]);
+  const hasAnimated = useRef(false);
+  const { active, scrollToSection } = useActiveSection(ITEMS, { offset: HEADER_OFFSET });
 
   useEffect(() => {
     itemRefs.current.forEach((el, i) => {
-      if (el) gsap.set(el, { fontWeight: i === active ? 700 : 400 });
+      if (!el) return;
+      const fontWeight = i === active ? 700 : 400;
+      if (hasAnimated.current) {
+        gsap.to(el, { fontWeight, duration: 0.18, overwrite: "auto" });
+      } else {
+        gsap.set(el, { fontWeight });
+      }
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const handleClick = (index: number, title: string) => {
-    if (index === active) return;
-    const prev = itemRefs.current[active];
-    const next = itemRefs.current[index];
-
-    if (prev) gsap.to(prev, { fontWeight: 400, duration: 0.18 });
-    if (next) {
-      gsap.to(next, {
-        fontWeight: 700,
-        duration: 0.18,
-        onComplete: () => setActive(index),
-      });
-
-      gsap.to(window, {
-        duration: 1,
-         scrollTo: {
-          y: `#${title}`,
-          offsetY: 100,
-        },
-        ease: "power2.out",
-      })
-    } else {
-      setActive(index);
-    }
-  };
+    hasAnimated.current = true;
+  }, [active]);
 
   return (
     <header className="hidden lg:flex justify-between items-center w-screen px-12 py-4 bg-slate-50 sticky top-0 z-999">
@@ -60,7 +42,7 @@ export const Navigation = () => {
               <li
                 key={label}
                 ref={(el: HTMLLIElement | null) => void (itemRefs.current[i] = el)}
-                onClick={() => handleClick(i, label)}
+                onClick={() => scrollToSection(i)}
                 className={`cursor-pointer text-xs select-none ${active === i ? "font-bold" : ""}`}
                 role="button"
                 aria-current={active === i ? "page" : undefined}
