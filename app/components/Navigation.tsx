@@ -4,8 +4,11 @@ import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
+import { ScrollToPlugin } from "gsap/ScrollToPlugin";
 
-const ITEMS = ["Home", "About", "Courses", "Schedule", "Contact"];
+const ITEMS = ["Home", "Courses", "Founders", "Faq",  "Contact"];
+
+gsap.registerPlugin(ScrollToPlugin);
 
 export const Navigation = () => {
   const [active, setActive] = useState<number>(0);
@@ -18,7 +21,7 @@ export const Navigation = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const handleClick = (index: number) => {
+  const handleClick = (index: number, title: string) => {
     if (index === active) return;
     const prev = itemRefs.current[active];
     const next = itemRefs.current[index];
@@ -30,6 +33,15 @@ export const Navigation = () => {
         duration: 0.18,
         onComplete: () => setActive(index),
       });
+
+      gsap.to(window, {
+        duration: 1,
+         scrollTo: {
+          y: `#${title}`,
+          offsetY: 100,
+        },
+        ease: "power2.out",
+      })
     } else {
       setActive(index);
     }
@@ -48,7 +60,7 @@ export const Navigation = () => {
               <li
                 key={label}
                 ref={(el: HTMLLIElement | null) => void (itemRefs.current[i] = el)}
-                onClick={() => handleClick(i)}
+                onClick={() => handleClick(i, label)}
                 className={`cursor-pointer text-xs select-none ${active === i ? "font-bold" : ""}`}
                 role="button"
                 aria-current={active === i ? "page" : undefined}

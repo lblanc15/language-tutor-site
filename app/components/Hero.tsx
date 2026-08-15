@@ -49,7 +49,7 @@ export const Hero = () => {
   const lineTwo = isSpanish ? current.accentEs : current.accentEn;
 
   return (
-    <section className="flex flex-col lg:h-[calc(100%-92px)] lg:flex-row items-center lg:pt-23 lg:px-12">
+    <section id="Home" className="flex flex-col lg:h-[calc(100%-92px)] lg:flex-row items-center lg:pt-23 lg:px-12">
       <div className="order-2 lg:order-1 lg:basis-1/2 font-body px-6 lg:px-0">
         <div className="flex gap-3 items-center lg:hidden mb-8">
           <Image alt="logo" src="/assets/images/aer-logo.png" width={60} height={60} className="h-18 w-18 sm:h-12 sm:w-12 lg:h-15 lg:w-15" priority />

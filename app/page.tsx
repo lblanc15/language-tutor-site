@@ -9,6 +9,7 @@ import { Phone } from "lucide-react";
 import { Navigation } from "./components/Navigation";
 import { NavigationMobile } from "./components/NavigationMobile";
 import { Courses } from "./components/Courses";
+import { Contact } from "./components/Contact";
 
 export default function Page() {
   return (
@@ -19,6 +20,7 @@ export default function Page() {
       <Courses />
       <Founders />
       <Faq />
+      <Contact />
       <Footer />
     </main>
   );
