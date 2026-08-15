@@ -165,7 +165,7 @@ export const Faq = () => {
   }, []);
 
   return (
-    <section ref={sectionRef} className="px-6 lg:px-12 w-full py-12 bg-slate-50 rounded-t-[50px]">
+    <section id="Faq" ref={sectionRef} className="px-6 lg:px-12 w-full py-12 bg-slate-50 rounded-t-[50px]">
       <div className="faq-header uppercase mb-6 px-4 py-2 rounded-full border border-slate-700 font-body font-light text-xs w-fit">Frequently asked questions</div>
       <h2 className="faq-header text-2xl font-semibold uppercase mb-2 text-blue-950">Got Questions?</h2>
       <p className="faq-header font-body lg:max-w-xl text-sm mb-8">We compiled answers to the common questions about our service.</p>

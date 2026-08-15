@@ -97,7 +97,7 @@ export const Courses = () => {
   }, []);
 
   return (
-    <section ref={sectionRef} className="px-6 py-12 mt-18 bg-gray-100 rounded-lg lg:mx-12">
+    <section id="Courses" ref={sectionRef} className="px-6 py-12 mt-18 bg-gray-100 rounded-lg lg:mx-12">
       <div className="courses-kicker uppercase mb-6 px-4 py-2 rounded-full border border-slate-700 font-body font-light text-xs w-fit">Courses</div>
       <article className="flex flex-col lg:flex-row gap-4 items-center">
         <div className="courses-copy h-full basis-1/2 pr-4">

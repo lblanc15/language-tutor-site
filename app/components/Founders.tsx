@@ -87,7 +87,7 @@ export const Founders = () => {
   }, []);
 
   return (
-    <section ref={sectionRef} className="mt-8 lg:mt-18 py-4 px-6 lg:px-12">
+    <section id="Founders" ref={sectionRef} className="mt-8 lg:mt-18 py-4 px-6 lg:px-12">
       <div className="founders-kicker uppercase mb-6 px-4 py-2 rounded-full border border-slate-700 font-body font-light text-xs w-fit">Founders</div>
       <article className="founder-article lg:grid lg:grid-cols-[1fr_1.3fr] gap-12 items-center">
         <div className="founder-photo relative aspect-3/4 h-130 w-full overflow-hidden rounded-lg mb-6 lg:mt-0">

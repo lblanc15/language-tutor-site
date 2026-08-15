@@ -4,15 +4,18 @@ import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { Home, Info, BookOpen, Calendar, Mail } from "lucide-react";
+import { Home, Info, BookOpen, Calendar, Mail, User, CircleQuestionMark } from "lucide-react";
+import { ScrollToPlugin } from "gsap/ScrollToPlugin";
 
 const ITEMS = [
   { label: "Home", Icon: Home },
-  { label: "About", Icon: Info },
   { label: "Courses", Icon: BookOpen },
-  { label: "Schedule", Icon: Calendar },
+  { label: "Founders", Icon: User },
+  { label: "Faq", Icon: CircleQuestionMark },
   { label: "Contact", Icon: Mail },
 ];
+
+gsap.registerPlugin(ScrollToPlugin);
 
 export const NavigationMobile = () => {
   const [active, setActive] = useState<number>(0);
@@ -25,7 +28,7 @@ export const NavigationMobile = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const handleClick = (index: number) => {
+  const handleClick = (index: number, title: string) => {
     if (index === active) return;
     const prev = itemRefs.current[active];
     const next = itemRefs.current[index];
@@ -40,6 +43,14 @@ export const NavigationMobile = () => {
         duration: 0.18,
         onComplete: () => setActive(index),
       });
+
+      gsap.to(window, {
+        duration: 1,
+         scrollTo: {
+          y: `#${title}`,
+        },
+        ease: "power2.out",
+      })
     } else {
       setActive(index);
     }
@@ -69,7 +80,7 @@ export const NavigationMobile = () => {
               <li
                 key={label}
                 ref={(el: HTMLLIElement | null) => void (itemRefs.current[i] = el)}
-                onClick={() => handleClick(i)}
+                onClick={() => handleClick(i, label)}
                 onMouseEnter={() => handleHoverEnter(i)}
                 onMouseLeave={() => handleHoverLeave(i)}
                 className={`cursor-pointer select-none transition-transform flex flex-col items-center justify-center gap-1 ${active === i ? "font-bold" : ""}`}
