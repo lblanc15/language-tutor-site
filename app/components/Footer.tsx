@@ -72,6 +72,11 @@ export const Footer = () => {
               target="_blank"
               style={{ height: 25, width: 25 }}
             />
+            <SocialIcon
+              url="https://wa.me/639206126888"
+              target="_blank"
+              style={{ height: 25, width: 25 }}
+            />
           </div>
         </div>
       </div>

@@ -31,7 +31,7 @@ const faqs = [
   {
     id: "5",
     title: "What level can I reach after the course?",
-    desc: "The program aims to help students reach a solid A2 level, with progress toward B1. Results may vary depending on attendance, participation, practice, and study habits"
+    desc: "The program aims to help students reach A2 level, with progress toward B1. Results may vary depending on attendance, participation, practice, and study habits"
   },
   {
     id: "6",

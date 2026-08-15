@@ -120,7 +120,7 @@ export const Courses = () => {
               </div>
               <div>
                 <h3 className="text-xs font-semibold uppercase">Level Goals</h3>
-                <p className="text-xs">Solid A2 level, <br/>with progress toward B1</p>
+                <p className="text-xs">Zero to A2 <br/>with progress toward B1</p>
               </div>
             </li>
             <li className="courses-card p-4 border-b border-gray-200 flex gap-4 items-center">
@@ -138,7 +138,7 @@ export const Courses = () => {
               </div>
               <div>
                 <h3 className="text-xs font-semibold uppercase">Schedule</h3>
-                <p className="text-xs">Tuesdays and Thursdays <br/> 6:00 - 8:00pm PHT</p>
+                <p className="text-xs">Please send us a message<br/> to check available class schedules.</p>
               </div>
             </li>
             <li className="courses-card p-4 border-b border-gray-200 flex gap-4 items-center">
