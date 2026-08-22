@@ -21,7 +21,7 @@ export async function POST(request: Request) {
 
     // 2. Read values from env bindings (or process.env as local dev fallback)
     const rawApiKey = (env as Record<string, string>).PLUNK_API_KEY || process.env.PLUNK_API_KEY;
-    const rawAdminEmail = (env as Record<string, string>).ADMIN_EMAIL || process.env.ADMIN_EMAIL;
+    const rawAdminEmail = (env as Record<string, string>).NEXT_PUBLIC_ADMIN_EMAIL || process.env.NEXT_PUBLIC_ADMIN_EMAIL;
 
     const apiKey = rawApiKey?.trim().replace(/^["']|["']$/g, "");
     const adminEmail = rawAdminEmail?.trim();
