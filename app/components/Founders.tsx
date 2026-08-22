@@ -89,8 +89,8 @@ export const Founders = () => {
   return (
     <section id="Founders" ref={sectionRef} className="mt-8 lg:mt-18 py-4 px-6 lg:px-12">
       <div className="founders-kicker uppercase mb-6 px-4 py-2 rounded-full border border-slate-700 font-body font-light text-xs w-fit">Founders</div>
-      <article className="founder-article lg:grid lg:grid-cols-[1fr_1.3fr] gap-12 items-center">
-        <div className="founder-photo relative aspect-3/4 h-130 w-full overflow-hidden rounded-lg mb-6 lg:mt-0">
+      <article className="founder-article md:grid md:grid-cols-[1fr_1.3fr] gap-12 items-center">
+        <div className="founder-photo relative aspect-3/4 lg:h-130 w-full overflow-hidden rounded-lg mb-6 lg:mt-0">
           <Image
             src="/assets/images/co-founder.jpg"
             alt="founder"
@@ -123,8 +123,8 @@ export const Founders = () => {
           <p className="font-body">He focuses on simple explanations, guided practice, real-life conversations, and helping students build confidence in using Spanish.</p>
         </div>
       </article>
-      <article className="founder-article grid grid-cols-1 lg:grid-cols-[1.3fr_1fr] gap-12 items-center mt-6">
-        <div className="founder-copy order-2 lg:order-1">
+      <article className="founder-article grid md:grid-cols-[1.3fr_1fr] gap-12 items-center mt-6">
+        <div className="founder-copy order-2 md:order-1">
           <h2 className="font-semibold text-xl">Leizel Sumayod Rico</h2>
           <h3 className="text-sm font-body text-red-800 mb-2">Co-Founder & Administrator</h3>
           <ul className="relative text-sm mb-2 font-body">
@@ -148,7 +148,7 @@ export const Founders = () => {
           </ul>
           <p className="font-body">She brings her teaching expertise and real-world experience to ensure effective and learner-friendly Spanish programs.</p>
         </div>
-        <div className="founder-photo relative aspect-3/4 h-130 w-full overflow-hidden rounded-lg mt-12 lg:mt-0 lg:mb-6 order-1 lg:order-2">
+        <div className="founder-photo relative aspect-3/4 lg:h-130 w-full overflow-hidden rounded-lg mt-12 lg:mt-0 lg:mb-6 order-1 md:order-2">
           <Image
             src="/assets/images/founder.jpg"
             alt="founder"
