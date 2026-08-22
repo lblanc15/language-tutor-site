@@ -1,6 +1,9 @@
 import { NextResponse } from "next/server";
 import { render } from "@react-email/render";
 import { ContactEmail } from "@/app/email-templates/plunk";
+import { getCloudflareContext } from "@opennextjs/cloudflare";
+
+export const runtime = "edge";
 
 export async function POST(request: Request) {
   try {
@@ -13,9 +16,15 @@ export async function POST(request: Request) {
       );
     }
 
-    // Clean API Key and Admin Email strings strictly
-    const apiKey = process.env.PLUNK_API_KEY?.trim().replace(/^["']|["']$/g, '');
-    const adminEmail = process.env.ADMIN_EMAIL?.trim();
+    // 1. Get environment bindings directly from OpenNext Cloudflare Context
+    const { env } = await getCloudflareContext();
+
+    // 2. Read values from env bindings (or process.env as local dev fallback)
+    const rawApiKey = (env as Record<string, string>).PLUNK_API_KEY || process.env.PLUNK_API_KEY;
+    const rawAdminEmail = (env as Record<string, string>).ADMIN_EMAIL || process.env.ADMIN_EMAIL;
+
+    const apiKey = rawApiKey?.trim().replace(/^["']|["']$/g, "");
+    const adminEmail = rawAdminEmail?.trim();
 
     if (!apiKey || !adminEmail) {
       return NextResponse.json(
@@ -26,12 +35,11 @@ export async function POST(request: Request) {
 
     const emailHtml = await render(ContactEmail({ name, email, message }));
 
-    // Send payload using standard endpoint & strict authorization header
     const response = await fetch("https://next-api.useplunk.com/v1/send", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${apiKey}`,
+        Authorization: `Bearer ${apiKey}`,
       },
       body: JSON.stringify({
         to: adminEmail,
