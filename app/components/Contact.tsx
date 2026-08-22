@@ -80,8 +80,7 @@ export const Contact = () => {
             />
           </div>
         </div>
-        {/* onSubmit={handleSubmit(onSubmit)} */}
-        <form onSubmit={(e) => e.preventDefault()} noValidate className="w-full font-body text-blue-950/90">
+        <form onSubmit={handleSubmit(onSubmit)} noValidate className={`${isSubmitSuccessful ? 'hidden' : ''} w-full font-body text-blue-950/90`}>
           <div className="space-y-4">
             <Field data-invalid={!!errors.name}>
               <FieldLabel htmlFor="name" className="text-white/90 text-sm font-medium">Name</FieldLabel>
@@ -130,6 +129,12 @@ export const Contact = () => {
             </Button>
           </div>
         </form>
+        <section className={`${isSubmitSuccessful ? '' : 'hidden'} text-center mt-8 lg:mt-0`}>
+          <div>
+          <h2 className="text-4xl text-blue-950 font-bold mb-3">¡Muchas gracias!</h2>
+          <p className="font-body">Your message has been sent successfully. <br /> We'll get back to you as soon as possible.</p>
+          </div>
+        </section>
       </article>
     </section>
   )

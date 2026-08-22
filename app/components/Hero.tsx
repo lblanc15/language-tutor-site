@@ -49,13 +49,13 @@ export const Hero = () => {
   const lineTwo = isSpanish ? current.accentEs : current.accentEn;
 
   return (
-    <section id="Home" className="flex flex-col lg:h-[calc(100%-92px)] lg:flex-row items-center lg:pt-23 lg:px-12">
-      <div className="order-2 lg:order-1 lg:basis-1/2 font-body px-6 lg:px-0">
+    <section id="Home" className="flex flex-col w-full lg:h-[calc(100%-92px)] lg:flex-row items-center lg:pt-23 lg:px-12">
+      <div className="order-2 mt-8 lg:mt-0 w-full lg:order-1 lg:basis-1/2 font-body px-6 lg:px-0">
         <div className="flex gap-3 items-center lg:hidden mb-8">
           <Image alt="logo" src="/assets/images/aer-logo.png" width={60} height={60} className="h-18 w-18 sm:h-12 sm:w-12 lg:h-15 lg:w-15" priority />
           <div className="text-lg font-bold uppercase leading-6"><span className="text-blue-950">Academia <br /> de Español</span> <span className="text-red-800">Rico</span></div>
         </div>
-        <h1 className="text-4xl lg:text-6xl font-heading font-bold text-blue-950 mb-8 leading-8 lg:leading-14">
+        <h1 className="w-full text-4xl lg:text-6xl font-heading font-bold text-blue-950 mb-8 leading-8 lg:leading-14">
           <span ref={lineOneRef} key={`${activeIndex}-${isSpanish ? "es" : "en"}`} className="block mb-3">{lineOne}</span>
           <span ref={lineTwoRef} className="block text-red-800">{lineTwo}</span>
         </h1>

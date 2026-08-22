@@ -110,7 +110,6 @@ export const Courses = () => {
             <li className="courses-item flex gap-2 items-center"><LucideCheck className="text-amber-500" size={18} />Speaking, Listening, Reading, Writing, Grammar, Vocabulary, and more</li>
             <li className="courses-item flex gap-2 items-center"><LucideCheck className="text-amber-500" size={18} />Assessments in Sessions 10, 20, and 30</li>
           </ul>
-          <Button className="font-body text-xs px-8 font-bold bg-red-800 hover:bg-red-500 text-white" size="lg">View Curriculum</Button>
         </div>
         <div className="basis-1/2 w-full mt-4 lg:mt-0 lg:mb-0">
           <ul className="shadow-sm bg-gray-50 rounded-lg w-full lg:w-3/5 mx-auto font-body">

@@ -1,17 +1,12 @@
 "use client";
 
-import { useEffect, useRef, type MouseEvent } from "react";
 import { SocialIcon } from "react-social-icons";
-import { gsap } from "gsap";
-import { ScrollToPlugin } from "gsap/ScrollToPlugin";
-
 
 export const Footer = () => {
-
   return (
-    <footer className="w-full px-6 lg:px-12 grid grid-cols-[1fr_1.5fr_1.5fr] lg:grid-cols-3 bg-blue-950 py-8 lg:py-2">
-      <div className="flex justify-center md:justify-start">
-        <img className="h-24 w-24 m-auto  lg:h-48 lg:w-48" alt="footer-img" src="/assets/images/watermark.png" />
+    <footer className="w-full px-6 lg:px-12 grid grid-cols-2 gap-4 md:grid-cols-[1fr_1.5fr_1.5fr] lg:grid-cols-3 bg-blue-950 py-12 lg:py-12">
+      <div className="flex justify-center md:justify-start col-span-2 md:col-span-1 mb-8 md:mb-0">
+        <img className="h-24 w-24 lg:h-32 lg:w-32 bg-slate-950" alt="footer-img" src="/assets/images/watermark.png" />
       </div>
       <div className="flex flex-col items-center justify-center h-full">
         <ul className="p-0 mt-4 text-white font-light flex flex-col gap-2">
@@ -52,7 +47,7 @@ export const Footer = () => {
               href="#schedule"
               className="text-white/70 hover:text-white transition"
             >
-              Schedule
+              Contact
             </a>
           </li>
         </ul>
