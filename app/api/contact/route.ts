@@ -3,9 +3,6 @@ import { render } from "@react-email/render";
 import { ContactEmail } from "@/app/email-templates/plunk";
 import { getCloudflareContext } from "@opennextjs/cloudflare";
 
-// ⚠️ REMOVED: export const runtime = "edge"; 
-// OpenNext runs all routes via nodejs_compat on Workers automatically.
-
 export async function POST(request: Request) {
   try {
     const { name, email, message } = await request.json();
@@ -17,10 +14,7 @@ export async function POST(request: Request) {
       );
     }
 
-    // 1. Get env bindings from Cloudflare context
     const { env } = await getCloudflareContext();
-
-    // 2. Read runtime bindings safely
     const rawApiKey = (env as Record<string, string>).PLUNK_API_KEY || process.env.PLUNK_API_KEY;
     const rawAdminEmail = (env as Record<string, string>).NEXT_PUBLIC_ADMIN_EMAIL || process.env.NEXT_PUBLIC_ADMIN_EMAIL;
 
@@ -33,13 +27,9 @@ export async function POST(request: Request) {
         { status: 500 }
       );
     }
-
-    // 3. Render email template
     const emailHtml = await render(
       ContactEmail({ name, email, message })
     );
-
-    // 4. Send email via Plunk API
     const response = await fetch("https://next-api.useplunk.com/v1/send", {
       method: "POST",
       headers: {
