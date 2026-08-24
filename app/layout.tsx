@@ -16,8 +16,17 @@ const manrope = Manrope({
 });
 
 export const metadata: Metadata = {
-  title: "Academia de Español Rico",
-  description: "Spanish language tutor site",
+  title: 'Academia de Español Rico | Online Spanish Classes for Filipino Learners',
+  description: 'Practical online Spanish classes tailored for Filipino learners. Master A1-A2 Spanish with live classes, expert instructors, and flexible schedules.',
+  keywords: ['Learn Spanish Philippines', 'Online Spanish Classes Manila', 'BPO Spanish Bilingual', 'Academia de Espanol Rico'],
+  openGraph: {
+    title: 'Academia de Español Rico - Learn Spanish Today',
+    description: 'Practical online Spanish classes tailored for Filipino learners.',
+    url: 'https://ricospanishacademy.com',
+    siteName: 'Academia de Español Rico',
+    locale: 'en_PH',
+    type: 'website',
+  },
 };
 
 export default function RootLayout({
