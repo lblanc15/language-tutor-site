@@ -19,6 +19,9 @@ export const metadata: Metadata = {
   title: 'Academia de Español Rico | Online Spanish Classes for Filipino Learners',
   description: 'Practical online Spanish classes tailored for Filipino learners. Master A1-A2 Spanish with live classes, expert instructors, and flexible schedules.',
   keywords: ['Learn Spanish Philippines', 'Online Spanish Classes Manila', 'BPO Spanish Bilingual', 'Academia de Espanol Rico'],
+  alternates: {
+    canonical: 'https://ricospanishacademy.com',
+  },
   openGraph: {
     title: 'Academia de Español Rico - Learn Spanish Today',
     description: 'Practical online Spanish classes tailored for Filipino learners.',
