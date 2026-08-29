@@ -62,7 +62,7 @@ export const ContactForm = () => {
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)} noValidate className={`${isSubmitSuccessful ? 'hidden' : ''} w-full font-body text-blue-950/90`}>
-        <div className="space-y-4">
+        <div className="space-y-2">
           <Field data-invalid={!!errors.name}>
             <FieldLabel htmlFor="name" className="text-white/90 text-sm font-medium">Name</FieldLabel>
             <Input
@@ -105,7 +105,8 @@ export const ContactForm = () => {
           {isSubmitSuccessful && !isDirty && (
             <p role="status" className="text-blue-950 text-xs font-medium">Message sent successfully. We&apos;ll get back to you soon.</p>
           )}
-          <Button type="submit" size="lg" disabled={isSubmitting} className="mt-4 font-body w-full text-xs py-5 font-bold bg-blue-950 hover:bg-blue-900 text-white">
+          <p className="font-body text-[11px] text-white/80">* Information submitted here is used solely to respond to your message and is kept strictly confidential.</p>
+          <Button type="submit" size="lg" disabled={isSubmitting} className="mt-2 font-body w-full text-xs py-5 font-bold bg-blue-950 hover:bg-blue-900 text-white">
             {isSubmitting ? "Sending..." : "Submit"}
           </Button>
         </div>
