@@ -1,7 +1,9 @@
+import { ClerkProvider } from "@clerk/nextjs";
 import type { Metadata } from "next";
 import { Libre_Caslon_Text, Manrope } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
+import { Toaster } from "sonner";
 
 const libreCaslonText = Libre_Caslon_Text({
   weight: "400",
@@ -42,7 +44,12 @@ export default function RootLayout({
       lang="en"
       className={cn("h-full", "antialiased", libreCaslonText.variable, manrope.variable, "font-sans")}
     >
-      <body className="min-h-full overflow-x-hidden">{children}</body>
+      <body className="min-h-full overflow-x-hidden">
+        <ClerkProvider>
+          {children}
+          <Toaster />
+        </ClerkProvider>
+      </body>
     </html>
   );
 }

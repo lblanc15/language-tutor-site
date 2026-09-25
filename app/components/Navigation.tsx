@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { UserButton } from "@clerk/nextjs";
 import { Button } from "@/components/ui/button";
 import { NavigationItems } from "./client/NavigationItems";
 import Link from "next/link";
@@ -14,9 +15,12 @@ export const Navigation = () => {
         <nav>
           <NavigationItems />
         </nav>
-        <Link href="https://forms.gle/MfadAgmc2uE2QqL27" target="_blank">
-          <Button className="font-body text-xs px-5 font-bold bg-red-800 hover:bg-red-500 text-white" size="lg">Enroll now</Button>
-        </Link>
+        <div className="flex items-center gap-2">
+          <UserButton />
+          <Link href="https://forms.gle/MfadAgmc2uE2QqL27" target="_blank">
+            <Button className="font-body text-xs px-5 font-bold bg-red-800 hover:bg-red-500 text-white" size="lg">Enroll now</Button>
+          </Link>
+        </div>
       </div>
     </header>
   );
