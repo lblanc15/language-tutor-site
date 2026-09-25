@@ -42,7 +42,7 @@ export const ContactForm = () => {
         body: JSON.stringify(data),
       });
 
-      const result = await response.json().catch(() => null);
+      const result = (await response.json().catch(() => null)) as { error?: string } | null;
 
       if (!response.ok) {
         setError("root", {
@@ -114,7 +114,7 @@ export const ContactForm = () => {
       <section className={`${isSubmitSuccessful ? '' : 'hidden'} text-center mt-8 lg:mt-0`}>
         <div>
         <h2 className="text-4xl text-blue-950 font-bold mb-3">¡Muchas gracias!</h2>
-        <p className="font-body">Your message has been sent successfully. <br /> We'll get back to you as soon as possible.</p>
+        <p className="font-body">Your message has been sent successfully. <br /> We&apos;ll get back to you as soon as possible.</p>
         </div>
       </section>
     </>

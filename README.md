@@ -1,36 +1,66 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Academia de Espanol Rico
 
-## Getting Started
+Next.js application deployed to Cloudflare Workers through OpenNext, with Cloudflare D1 persistence managed by Drizzle ORM.
 
-First, run the development server:
+## Local development
+
+Run the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+The local Next.js server can access simulated Cloudflare bindings because `next.config.ts` initializes OpenNext's local platform integration.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Cloudflare D1 setup
 
-## Learn More
+1. Create a D1 database:
 
-To learn more about Next.js, take a look at the following resources:
+	```bash
+	npx wrangler d1 create language-tutor-site-db
+	```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+2. Copy the returned database ID into `wrangler.jsonc`, replacing `REPLACE_WITH_D1_DATABASE_ID`.
+3. Regenerate the Cloudflare binding types:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+	```bash
+	npm run cf-typegen
+	```
 
-## Deploy on Vercel
+4. Generate migrations after changing `lib/db/schema.ts`:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+	```bash
+	npm run db:generate
+	```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+5. Apply migrations locally:
+
+	```bash
+	npm run db:migrate:local
+	```
+
+6. Apply migrations remotely only after reviewing them:
+
+	```bash
+	npm run db:migrate:remote
+	```
+
+The application accesses D1 through the `DB` binding in `lib/db/index.ts`. Application queries use Drizzle ORM; Drizzle Kit generates the SQL migrations that Wrangler applies.
+
+## Cloudflare preview and deployment
+
+```bash
+npm run preview
+npm run deploy
+```
+
+Required runtime secrets such as Clerk and Plunk credentials must be configured in Cloudflare separately. Do not commit `.env.local`, `.dev.vars`, or secret values.
+
+## Validation
+
+```bash
+npm run lint
+npm run build
+```
