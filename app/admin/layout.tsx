@@ -1,27 +1,37 @@
-import { verifyToken } from "@clerk/nextjs/server";
+import { createClerkClient } from "@clerk/nextjs/server";
 import { getCloudflareContext } from "@opennextjs/cloudflare";
-import { cookies } from "next/headers";
+import { headers } from "next/headers";
 import { AdminAccessDenied } from "./AdminAccessDenied";
+import { AdminSignIn } from "./AdminSignIn";
 
-async function hasAdminAccess() {
-  const sessionToken = (await cookies()).get("__session")?.value;
+type AdminAccess = "signed-out" | "denied" | "allowed";
 
-  if (!sessionToken) {
-    return false;
-  }
-
+async function getAdminAccess(): Promise<AdminAccess> {
   const { env } = await getCloudflareContext({ async: true });
   const secretKey = env.CLERK_SECRET_KEY || process.env.CLERK_SECRET_KEY;
+  const publishableKey =
+    env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY || process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
 
-  if (!secretKey) {
-    return false;
+  if (!secretKey || !publishableKey) {
+    return "denied";
   }
 
   try {
-    const claims = await verifyToken(sessionToken, { secretKey });
-    return claims.org_role === "org:admin";
+    const requestHeaders = await headers();
+    const host = requestHeaders.get("host") ?? "localhost";
+    const request = new Request(`https://${host}/admin`, {
+      headers: requestHeaders,
+    });
+    const clerk = createClerkClient({ secretKey, publishableKey });
+    const requestState = await clerk.authenticateRequest(request);
+
+    if (!requestState.isAuthenticated) {
+      return "signed-out";
+    }
+
+    return requestState.toAuth().orgRole === "org:admin" ? "allowed" : "denied";
   } catch {
-    return false;
+    return "denied";
   }
 }
 
@@ -30,7 +40,13 @@ export default async function AdminLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  if (!(await hasAdminAccess())) {
+  const access = await getAdminAccess();
+
+  if (access === "signed-out") {
+    return <AdminSignIn />;
+  }
+
+  if (access === "denied") {
     return <AdminAccessDenied />;
   }
 
