@@ -2,6 +2,8 @@ import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 
 const isAdminRoute = createRouteMatcher(["/admin(.*)"]);
 
+export const runtime = "edge";
+
 export default clerkMiddleware(async (auth, request) => {
   if (isAdminRoute(request)) {
     await auth.protect();
