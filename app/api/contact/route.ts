@@ -40,6 +40,15 @@ export async function POST(request: Request) {
     }
 
     const { env } = await getCloudflareContext({ async: true });
+    const emailNotificationsEnabled =
+      (env.EMAIL_NOTIFICATIONS_ENABLED || process.env.EMAIL_NOTIFICATIONS_ENABLED)?.trim() ===
+      "true";
+
+    // Emails are opt-in: when disabled, submissions are only saved to D1 (visible in /admin).
+    if (!emailNotificationsEnabled) {
+      return NextResponse.json({ success: true });
+    }
+
     const rawApiKey = env.PLUNK_API_KEY || process.env.PLUNK_API_KEY;
     const rawAdminEmail = env.NEXT_PUBLIC_ADMIN_EMAIL || process.env.NEXT_PUBLIC_ADMIN_EMAIL;
 
@@ -62,7 +71,7 @@ export async function POST(request: Request) {
       to: string;
       subject: string;
       body: string;
-      replyTo: string;
+      reply: string;
     }) => {
       const response = await fetch("https://next-api.useplunk.com/v1/send", {
         method: "POST",
@@ -84,13 +93,13 @@ export async function POST(request: Request) {
         to: adminEmail,
         subject: `[New Contact Inquiry] ${name}`,
         body: adminEmailHtml,
-        replyTo: email,
+        reply: email,
       }),
       sendEmail({
         to: email,
         subject: "We received your inquiry | Academia de Espanol Rico",
         body: confirmationEmailHtml,
-        replyTo: adminEmail,
+        reply: adminEmail,
       }),
     ]);
 
