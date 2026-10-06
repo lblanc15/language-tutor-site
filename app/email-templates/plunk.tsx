@@ -44,3 +44,19 @@ export function ContactConfirmationEmail({ name }: Pick<ContactEmailProps, "name
     </Html>
   );
 }
+
+export function ContactReplyEmail({ name, message }: Pick<ContactEmailProps, "name" | "message">) {
+  return (
+    <Html>
+      <Head />
+      <Body style={{ fontFamily: "sans-serif", backgroundColor: "#f4f4f4", padding: "20px" }}>
+        <Container style={{ backgroundColor: "#ffffff", padding: "24px", borderRadius: "8px" }}>
+          <Heading style={{ fontSize: "20px", marginBottom: "16px" }}>A reply to your inquiry</Heading>
+          <Text>Hi {name},</Text>
+          <Text style={{ whiteSpace: "pre-wrap", color: "#333" }}>{message}</Text>
+          <Text>Academia de Espanol Rico</Text>
+        </Container>
+      </Body>
+    </Html>
+  );
+}

@@ -22,6 +22,22 @@ export const contactSubmissions = sqliteTable(
   ],
 );
 
+export const contactSubmissionReplies = sqliteTable(
+  "contact_submission_replies",
+  {
+    id: integer("id").primaryKey({ autoIncrement: true }),
+    submissionId: integer("submission_id")
+      .notNull()
+      .references(() => contactSubmissions.id, { onDelete: "cascade" }),
+    message: text("message").notNull(),
+    sentAt: integer("sent_at", { mode: "timestamp_ms" }).notNull().$defaultFn(() => new Date()),
+  },
+  (table) => [
+    index("contact_submission_replies_submission_id_idx").on(table.submissionId),
+    index("contact_submission_replies_sent_at_idx").on(table.sentAt),
+  ],
+);
+
 export const enrollmentSubmissions = sqliteTable(
   "enrollment_submissions",
   {
@@ -52,5 +68,6 @@ export const enrollmentSubmissions = sqliteTable(
 
 export type ContactSubmission = typeof contactSubmissions.$inferSelect;
 export type NewContactSubmission = typeof contactSubmissions.$inferInsert;
+export type ContactSubmissionReplyRecord = typeof contactSubmissionReplies.$inferSelect;
 export type EnrollmentSubmission = typeof enrollmentSubmissions.$inferSelect;
 export type NewEnrollmentSubmission = typeof enrollmentSubmissions.$inferInsert;
