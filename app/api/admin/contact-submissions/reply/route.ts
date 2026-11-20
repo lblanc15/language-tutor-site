@@ -3,10 +3,12 @@ import { getCloudflareContext } from "@opennextjs/cloudflare";
 import { render } from "@react-email/render";
 import { NextResponse } from "next/server";
 import { z } from "zod";
+import { eq } from "drizzle-orm";
 import { ContactReplyEmail } from "@/app/email-templates/plunk";
 import { getDb } from "@/lib/db";
 import { contactSubmissionReplies, contactSubmissions } from "@/lib/db/schema";
-import { eq } from "drizzle-orm";
+import { sendPlunkEmail } from "@/lib/email/send-plunk-email";
+import { getConfiguredAdminEmail } from "@/lib/settings/admin-email";
 
 const replySchema = z.object({
   submissionId: z.number().int().positive(),
@@ -46,33 +48,30 @@ export async function POST(request: Request) {
 
     const { env } = await getCloudflareContext({ async: true });
     const rawApiKey = env.PLUNK_API_KEY || process.env.PLUNK_API_KEY;
-    const rawAdminEmail = env.NEXT_PUBLIC_ADMIN_EMAIL || process.env.NEXT_PUBLIC_ADMIN_EMAIL;
     const apiKey = rawApiKey?.trim().replace(/^['"]|['"]$/g, "");
-    const adminEmail = rawAdminEmail?.trim();
+    const adminEmail = await getConfiguredAdminEmail();
 
     if (!apiKey || !adminEmail) {
       return NextResponse.json({ error: "Email sending is not configured." }, { status: 503 });
+    }
+    if (!z.email().safeParse(adminEmail).success) {
+      return NextResponse.json(
+        { error: "The active admin email address is invalid." },
+        { status: 503 }
+      );
     }
 
     const emailHtml = await render(
       ContactReplyEmail({ name: submission.name, message: parsed.data.message })
     );
-    const response = await fetch("https://next-api.useplunk.com/v1/send", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${apiKey}`,
-      },
-      body: JSON.stringify({
-        to: submission.email,
-        subject: "Re: Your inquiry | Academia de Espanol Rico",
-        body: emailHtml,
-        from: "contact@ricospanishacademy.com",
-        reply: adminEmail,
-      }),
+    const sent = await sendPlunkEmail(apiKey, {
+      to: submission.email,
+      subject: "Re: Your inquiry | Academia de Espanol Rico",
+      body: emailHtml,
+      reply: adminEmail,
     });
 
-    if (!response.ok) {
+    if (!sent) {
       return NextResponse.json({ error: "Plunk could not send the reply." }, { status: 502 });
     }
 

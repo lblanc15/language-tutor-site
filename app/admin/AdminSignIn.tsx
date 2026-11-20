@@ -12,7 +12,7 @@ export function AdminSignIn() {
 
   return (
     <main className="flex min-h-screen items-center justify-center bg-slate-50 px-6">
-      <SignInButton mode="modal" forceRedirectUrl="/admin">
+      <SignInButton mode="modal" forceRedirectUrl="/admin" withSignUp={false}>
         <button
           ref={buttonRef}
           type="button"

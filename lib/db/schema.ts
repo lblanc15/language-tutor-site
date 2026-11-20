@@ -38,6 +38,12 @@ export const contactSubmissionReplies = sqliteTable(
   ],
 );
 
+export const adminEmailSettings = sqliteTable("admin_email_settings", {
+  id: integer("id").primaryKey(),
+  activeEmail: text("active_email").notNull(),
+  updatedAt: integer("updated_at", { mode: "timestamp_ms" }).notNull(),
+});
+
 export const enrollmentSubmissions = sqliteTable(
   "enrollment_submissions",
   {
@@ -69,5 +75,6 @@ export const enrollmentSubmissions = sqliteTable(
 export type ContactSubmission = typeof contactSubmissions.$inferSelect;
 export type NewContactSubmission = typeof contactSubmissions.$inferInsert;
 export type ContactSubmissionReplyRecord = typeof contactSubmissionReplies.$inferSelect;
+export type AdminEmailSettings = typeof adminEmailSettings.$inferSelect;
 export type EnrollmentSubmission = typeof enrollmentSubmissions.$inferSelect;
 export type NewEnrollmentSubmission = typeof enrollmentSubmissions.$inferInsert;

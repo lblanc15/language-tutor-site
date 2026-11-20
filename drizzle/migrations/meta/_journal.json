@@ -15,6 +15,13 @@
       "when": 1791282474000,
       "tag": "0001_add_contact_submission_replies",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1795174776000,
+      "tag": "0002_admin_email_settings",
+      "breakpoints": true
     }
   ]
 }

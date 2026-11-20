@@ -5,6 +5,8 @@ import { getCloudflareContext } from "@opennextjs/cloudflare";
 import { z } from "zod";
 import { getDb } from "@/lib/db";
 import { contactSubmissions } from "@/lib/db/schema";
+import { sendPlunkEmail } from "@/lib/email/send-plunk-email";
+import { getConfiguredAdminEmail } from "@/lib/settings/admin-email";
 
 const contactSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
@@ -50,10 +52,9 @@ export async function POST(request: Request) {
     }
 
     const rawApiKey = env.PLUNK_API_KEY || process.env.PLUNK_API_KEY;
-    const rawAdminEmail = env.NEXT_PUBLIC_ADMIN_EMAIL || process.env.NEXT_PUBLIC_ADMIN_EMAIL;
 
     const apiKey = rawApiKey?.trim().replace(/^["']|["']$/g, "");
-    const adminEmail = rawAdminEmail?.trim();
+    const adminEmail = await getConfiguredAdminEmail();
 
     if (!apiKey || !adminEmail) {
       return NextResponse.json(
@@ -61,41 +62,28 @@ export async function POST(request: Request) {
         { status: 503 }
       );
     }
+
+    if (!z.email().safeParse(adminEmail).success) {
+      return NextResponse.json(
+        { error: "Your message was saved, but notification is temporarily unavailable." },
+        { status: 503 }
+      );
+    }
+
     const adminUrl = new URL("/admin", request.url).toString();
     const [adminEmailHtml, confirmationEmailHtml] = await Promise.all([
       render(ContactAdminEmail({ name, email, message, adminUrl })),
       render(ContactConfirmationEmail({ name })),
     ]);
 
-    const sendEmail = async (payload: {
-      to: string;
-      subject: string;
-      body: string;
-      reply: string;
-    }) => {
-      const response = await fetch("https://next-api.useplunk.com/v1/send", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${apiKey}`,
-        },
-        body: JSON.stringify({
-          ...payload,
-          from: "contact@ricospanishacademy.com",
-        }),
-      });
-
-      return response.ok;
-    };
-
     const [adminEmailSent, confirmationEmailSent] = await Promise.all([
-      sendEmail({
+      sendPlunkEmail(apiKey, {
         to: adminEmail,
         subject: `[New Contact Inquiry] ${name}`,
         body: adminEmailHtml,
         reply: email,
       }),
-      sendEmail({
+      sendPlunkEmail(apiKey, {
         to: email,
         subject: "We received your inquiry | Academia de Espanol Rico",
         body: confirmationEmailHtml,
