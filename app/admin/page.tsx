@@ -1,4 +1,4 @@
-import { Form } from "lucide-react"
+import { Form, Mail } from "lucide-react"
 import Link from "next/link"
 
 const adminFunctions = [
@@ -7,6 +7,12 @@ const adminFunctions = [
     route: "/admin/contact-submissions",
     icon: <Form className="h-5 w-5 text-red-800" />,
     subtitle: "View and manage contact form submissions",
+  },
+  {
+    name: "Email Settings",
+    route: "/admin/email-settings",
+    icon: <Mail className="h-5 w-5 text-red-800" />,
+    subtitle: "Update the admin notification address",
   }
 ]
 

@@ -6,7 +6,6 @@ interface __BaseEnv_CloudflareEnv {
 	ASSETS: Fetcher;
 	RESEND_API_KEY: string;
 	PLUNK_API_KEY: string;
-	NEXT_PUBLIC_ADMIN_EMAIL: string;
 	NEXT_PUBLIC_CLERK_SIGN_IN_URL: string;
 	NEXT_PUBLIC_CLERK_SIGN_UP_URL: string;
 	NEXT_PUBLIC_CLERK_SIGN_IN_FALLBACK_REDIRECT_URL: string;
@@ -24,7 +23,7 @@ type StringifyValues<EnvType extends Record<string, unknown>> = {
 	[Binding in keyof EnvType]: EnvType[Binding] extends string ? EnvType[Binding] : string;
 };
 declare namespace NodeJS {
-	interface ProcessEnv extends StringifyValues<Pick<Cloudflare.Env, "RESEND_API_KEY" | "PLUNK_API_KEY" | "NEXT_PUBLIC_ADMIN_EMAIL" | "NEXT_PUBLIC_CLERK_SIGN_IN_URL" | "NEXT_PUBLIC_CLERK_SIGN_UP_URL" | "NEXT_PUBLIC_CLERK_SIGN_IN_FALLBACK_REDIRECT_URL" | "NEXT_PUBLIC_CLERK_SIGN_UP_FALLBACK_REDIRECT_URL" | "NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY" | "CLERK_SECRET_KEY" | "EMAIL_NOTIFICATIONS_ENABLED">> {}
+	interface ProcessEnv extends StringifyValues<Pick<Cloudflare.Env, "RESEND_API_KEY" | "PLUNK_API_KEY" | "NEXT_PUBLIC_CLERK_SIGN_IN_URL" | "NEXT_PUBLIC_CLERK_SIGN_UP_URL" | "NEXT_PUBLIC_CLERK_SIGN_IN_FALLBACK_REDIRECT_URL" | "NEXT_PUBLIC_CLERK_SIGN_UP_FALLBACK_REDIRECT_URL" | "NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY" | "CLERK_SECRET_KEY" | "EMAIL_NOTIFICATIONS_ENABLED">> {}
 }
 
 // Begin runtime types
