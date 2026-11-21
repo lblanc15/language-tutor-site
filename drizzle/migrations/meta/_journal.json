@@ -22,6 +22,20 @@
       "when": 1795174776000,
       "tag": "0002_admin_email_settings",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "6",
+      "when": 1795231975336,
+      "tag": "0003_milky_katie_power",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "6",
+      "when": 1795236000000,
+      "tag": "0004_others_inquiry_topic",
+      "breakpoints": true
     }
   ]
 }

@@ -2,15 +2,17 @@ import { NextResponse } from "next/server";
 import { render } from "@react-email/render";
 import { ContactAdminEmail, ContactConfirmationEmail } from "@/app/email-templates/plunk";
 import { getCloudflareContext } from "@opennextjs/cloudflare";
+import { eq } from "drizzle-orm";
 import { z } from "zod";
 import { getDb } from "@/lib/db";
-import { contactSubmissions } from "@/lib/db/schema";
+import { contactInquiryTopics, contactSubmissions } from "@/lib/db/schema";
 import { sendPlunkEmail } from "@/lib/email/send-plunk-email";
 import { getConfiguredAdminEmail } from "@/lib/settings/admin-email";
 
 const contactSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
   email: z.email("Please enter a valid email address"),
+  inquiryTopic: z.string().trim().min(1, "Please select an inquiry topic").max(80),
   message: z.string().min(10, "Message must be at least 10 characters"),
 });
 
@@ -25,13 +27,27 @@ export async function POST(request: Request) {
       );
     }
 
-    const { name, email, message } = parsed.data;
+    const { name, email, inquiryTopic, message } = parsed.data;
 
     try {
       const db = await getDb();
+      const [activeTopic] = await db
+        .select({ id: contactInquiryTopics.id })
+        .from(contactInquiryTopics)
+        .where(eq(contactInquiryTopics.topic, inquiryTopic))
+        .limit(1);
+
+      if (!activeTopic) {
+        return NextResponse.json(
+          { error: "Please select a valid inquiry topic." },
+          { status: 400 }
+        );
+      }
+
       await db.insert(contactSubmissions).values({
         name,
         email,
+        inquiryTopic,
         message,
       });
     } catch {
