@@ -21,6 +21,11 @@ export const Contact = () => {
               style={{ height: 25, width: 25 }}
             />
             <SocialIcon
+              url="https://www.instagram.com/ricospanishacademy_"
+              target="_blank"
+              style={{ height: 25, width: 25 }}
+            />
+            <SocialIcon
               url="mailto:ricospanishacademy@gmail.com"
               target="_blank"
               style={{ height: 25, width: 25 }}

@@ -1,4 +1,4 @@
-import { index, integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
+import { index, integer, sqliteTable, text, uniqueIndex } from "drizzle-orm/sqlite-core";
 
 export const contactSubmissionStatus = ["NEW", "READ", "ARCHIVED"] as const;
 export type ContactSubmissionStatus = (typeof contactSubmissionStatus)[number];
@@ -13,6 +13,7 @@ export const contactSubmissions = sqliteTable(
     name: text("name").notNull(),
     email: text("email").notNull(),
     message: text("message").notNull(),
+    inquiryTopic: text("inquiry_topic").notNull().default("Others"),
     status: text("status", { enum: contactSubmissionStatus }).notNull().default("NEW"),
     createdAt: integer("created_at", { mode: "timestamp_ms" }).notNull().$defaultFn(() => new Date()),
   },
@@ -20,6 +21,15 @@ export const contactSubmissions = sqliteTable(
     index("contact_submissions_created_at_idx").on(table.createdAt),
     index("contact_submissions_status_idx").on(table.status),
   ],
+);
+
+export const contactInquiryTopics = sqliteTable(
+  "contact_inquiry_topics",
+  {
+    id: integer("id").primaryKey({ autoIncrement: true }),
+    topic: text("topic").notNull(),
+  },
+  (table) => [uniqueIndex("contact_inquiry_topics_topic_idx").on(table.topic)],
 );
 
 export const contactSubmissionReplies = sqliteTable(
@@ -74,6 +84,7 @@ export const enrollmentSubmissions = sqliteTable(
 
 export type ContactSubmission = typeof contactSubmissions.$inferSelect;
 export type NewContactSubmission = typeof contactSubmissions.$inferInsert;
+export type ContactInquiryTopic = typeof contactInquiryTopics.$inferSelect;
 export type ContactSubmissionReplyRecord = typeof contactSubmissionReplies.$inferSelect;
 export type AdminEmailSettings = typeof adminEmailSettings.$inferSelect;
 export type EnrollmentSubmission = typeof enrollmentSubmissions.$inferSelect;

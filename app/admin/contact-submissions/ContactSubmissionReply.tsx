@@ -2,7 +2,7 @@
 
 import { useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
-import { Mail, Send } from "lucide-react";
+import { Send } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import {
@@ -71,14 +71,14 @@ export function ContactSubmissionReply({
     <>
       <Button
         type="button"
-        variant="outline"
-        size="sm"
+        variant="ghost"
+        size="icon-sm"
         onClick={() => setIsOpen(true)}
         aria-label={`Reply to ${name}`}
-        className="border-blue-200 text-blue-950 hover:bg-blue-50 hover:text-blue-950"
+        title={`Reply to ${name}`}
+        className="text-blue-950 hover:bg-blue-50 hover:text-blue-950"
       >
-        <Mail aria-hidden="true" />
-        Reply
+        <Send aria-hidden="true" />
       </Button>
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogContent className="border border-slate-200 bg-white p-6 font-body sm:max-w-lg">
